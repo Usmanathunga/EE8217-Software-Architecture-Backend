@@ -28,31 +28,36 @@ function Front() {
 
   const Threshold = "35";
   const [data, SetData] = useState({
-    sensor_id: "",
+    id: "",
     date: "",
-    data_value: "",
+    value: "",
   });
 
   const fetcData = () => {
-    axios
-      .get(`https://dear-diary-dalin-default-rtdb.firebaseio.com/todo.json`)
-      .then((res) => {
-        const persons = res.data;
-        SetData(persons);
-      });
-  };
-  console.log("int value for threshold", Threshold);
-  console.log("int value for dataValue", data.data_value);
+    axios.get(`http://localhost:8080/api`).then((res) => {
+      const persons = res.data;
 
-  if (parseInt(Threshold) < parseInt(data.data_value)) {
+      var lastNumber = parseInt(persons.length);
+
+      console.log("Check Data: ", typeof lastNumber);
+      console.log("all data", persons);
+      // let lastNumber =
+
+      var lastData = persons[lastNumber - 1];
+
+      SetData(lastData);
+    });
+  };
+
+  if (parseInt(Threshold) < parseInt(data.value)) {
     // alert(" Value More than the Threshold value");
     console.log("if working");
     return (
       <div className="App">
         <h1>Threshold Value : {Threshold}</h1>
-        <h1>The Last Value get from API Sensor ID : {data.sensor_id}</h1>
+        <h1>The Last Value get from API Sensor ID : {data.id}</h1>
         <h1>The Last Value get from API Sensor ID : {data.date}</h1>
-        <h1>The Last Value get from API Sensor ID : {data.data_value}</h1>
+        <h1>The Last Value get from API Sensor ID : {data.value}</h1>
 
         <div className="btn">
           <form onSubmit={sendEmail}>
@@ -74,9 +79,9 @@ function Front() {
     return (
       <div className="App">
         <h1>Threshold Value : {Threshold}</h1>
-        <h1>The Last Value get from API Sensor ID : {data.sensor_id}</h1>
+        <h1>The Last Value get from API Sensor ID : {data.id}</h1>
         <h1>The Last Value get from API Sensor ID : {data.date}</h1>
-        <h1>The Last Value get from API Sensor ID : {data.data_value}</h1>
+        <h1>The Last Value get from API Sensor ID : {data.value}</h1>
         <Button
           type="submit"
           className="btn"
